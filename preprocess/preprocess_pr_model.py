@@ -6,7 +6,7 @@ import argparse
 
 
 def main(zone:int=5):
-    months = ["01_January", "02_February", "03_March", "04_April", "05_May", "06_June", "07_July", "09_September", "10_October", "11_November", "12_December"]
+    months = ["01_January", "02_February", "03_March", "04_April", "05_May", "06_June", "07_July", "08_August", "09_September", "10_October", "11_November", "12_December"]
     sets_data = ['training', "testing"]
     #sets_data = ['training']
     ensembles = range(1,26)
