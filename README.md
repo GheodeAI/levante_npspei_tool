@@ -1,4 +1,3 @@
-
 # levante_npspei_tool
 
 This repository contains a complete pipeline for calculating the **Non-Parametric Standardized Precipitation Evapotranspiration Index (NP-SPEI)** on the Levante HPC system.
@@ -17,7 +16,7 @@ The raw precipitation data is provided in a 6-zone layout, while Temperature (TN
 * **Input:** Raw PR NetCDF files (6 zones).
 * **Output:** Preprocessed PR NetCDF files organized by ensemble and month (5 zones).
 
-[📂 **Go to Preprocess Folder**](https://github.com/cosminmarina/levante_npspei_tool/tree/da2074495753ca3b3a169ce7465939674e2c388a/preprocess)
+[📂 **Go to Preprocess Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/preprocess/preprocess.md)
 
 ---
 
@@ -31,7 +30,7 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 * **Input:** Preprocessed PR data (from Step 1) and Downscaled TN/TX.
 * **Output:** Monthly Water Balance NetCDF files per ensemble.
 
-[📂 **Go to Water Balance Folder**](https://github.com/cosminmarina/levante_npspei_tool/tree/da2074495753ca3b3a169ce7465939674e2c388a/water_balance)
+[📂 **Go to Water Balance Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/water_balance/water_balance.md)
 
 ---
 
@@ -45,7 +44,7 @@ To bypass memory restrictions on the HPC, the Water Balance NetCDF files are dec
 * **Input:** Water Balance NetCDFs (from Step 2).
 * **Output:** Thousands of lightweight `.npy` files (one per grid point) in a `grid_points/` subdirectory.
 
-[📂 **Go to NP-SPEI Folder**](https://github.com/cosminmarina/levante_npspei_tool/tree/da2074495753ca3b3a169ce7465939674e2c388a/npspei)
+[📂 **Go to NP-SPEI Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/npspei/npspei.md)
 
 ---
 
@@ -59,7 +58,7 @@ The final step gathers the thousands of individual grid point results produced i
 * **Input:** Directory of `.npy` grid point files (from Step 3).
 * **Output:** Final NP-SPEI NetCDF file (e.g., `npspei_1993_2014_ens01.nc`).
 
-[📂 **Go to Merge Files Folder**](https://github.com/cosminmarina/levante_npspei_tool/tree/da2074495753ca3b3a169ce7465939674e2c388a/merge_files)
+[📂 **Go to Merge Files Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/merge_files/merge_files.md)
 
 ## Prerequisites
 
