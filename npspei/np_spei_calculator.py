@@ -69,6 +69,10 @@ def main():
                         help='Grid index to process (for array jobs)')
     parser.add_argument('--grid-size', type=int, default=None,
                         help='Total grid size (for array jobs)')
+    parser.add_argument('-es', '--eval-start', type=int,
+                        help='Start year for evaluation period (optional)')
+    parser.add_argument('-ee', '--eval-end', type=int,
+                        help='End year for evaluation period (optional)')
     args = parser.parse_args()
     
     # Load configuration from JSON if provided
@@ -209,6 +213,11 @@ def main():
             if config['ref_start'] and config['ref_end']:
                 kwargs['ref.start'] = config['ref_start']
                 kwargs['ref.end'] = config['ref_end']
+
+            # Add eval period if specified
+            if args.eval_start and args.eval_end:
+                kwargs['eval_start'] = args.eval_start
+                kwargs['eval_end'] = args.eval_end
             
             # Calculate SPEI
             spei_result = np_spei_py(r_ts, frequency, ts_start, **kwargs)
@@ -262,6 +271,11 @@ def main():
                         if config['ref_start'] and config['ref_end']:
                             kwargs['ref.start'] = config['ref_start']
                             kwargs['ref.end'] = config['ref_end']
+
+                        # Add eval period if specified
+                        if args.eval_start and args.eval_end:
+                            kwargs['eval_start'] = args.eval_start
+                            kwargs['eval_end'] = args.eval_end
                         
                         # Calculate SPEI
                         spei_result = np_spei_py(r_ts, frequency, ts_start, **kwargs)
