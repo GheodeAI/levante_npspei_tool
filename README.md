@@ -38,7 +38,7 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 
 **Goal:** Compute NP-SPEI for individual grid points.
 
-To bypass memory restrictions on the HPC, the Water Balance NetCDF files are decomposed into individual grid points. A hybrid Python/R workflow calculates the Non-Parametric SPEI for each point in parallel using SLURM array jobs.
+To bypass memory restrictions on the HPC and, specially the time computing restrictions, the Water Balance NetCDF files are decomposed into individual grid points. A hybrid Python/R workflow calculates the Non-Parametric SPEI for each point in parallel using SLURM array jobs.
 
 * **Key Scripts:** `submit_by_zone.sh`, `np_spei_calculator.py`
 * **Input:** Water Balance NetCDFs (from Step 2).
