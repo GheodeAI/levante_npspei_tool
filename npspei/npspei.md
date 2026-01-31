@@ -6,7 +6,7 @@ This repository contains a suite of scripts designed to calculate the **Non-Para
 
 ### Motivation
 
-Due to memory and time restrictions on the **Levante** HPC system, calculating NP-SPEI for large datasets (all ensembles and zones) simultaneously is not feasible. This pipeline solves that problem by:
+Due to memory and time restrictions on the **Levante** HPC system, calculating NP-SPEI for large datasets (all ensembles and zones) simultaneously is not feasible. Specially, due to the time consumption need to process the files. This pipeline solves that problem by:
 
 1. Decomposing NetCDF data into individual grid points.
 2. Calculating NP-SPEI for each grid point independently using `rpy2` and the `SPEI` R library.
