@@ -1,3 +1,12 @@
+suppressPackageStartupMessages({
+    require(zoo)
+    require(lubridate)
+    require(kde1d)
+    require(SPEI)
+    require(Rmpfr)
+    require(parallel)
+})
+
 # Non-parametric SPEI function         22.08.2023
 np.spei <- function(x, scale, kernel = list(type = 'rectangular', shift = 0),
                     na.rm = FALSE, ref.start=NULL, ref.end=NULL,
@@ -308,55 +317,34 @@ np.spei <- function(x, scale, kernel = list(type = 'rectangular', shift = 0),
   return(spei.fin)
 }
 
-np.spei_py <- function(x, freq, ts_start, scale, ...)
-{
-  #message("===== STARTING np.spei_py WRAPPER =====")
-  #message("Input x class: ", class(x))
-  #message("Input x length: ", length(x))
-  #message("freq: ", freq)
-  #message("ts_start: ", ts_start)
-  #message("ts_start class: ", class(ts_start))
-  #message("scale: ", scale)
-
-  # Parse the start date
-  #message("Parsing ts_start format")
-  ts_start_parts <- as.numeric(strsplit(ts_start, "-")[[1]])
-  #message("Parsed ts_start parts: ", paste(ts_start_parts, collapse = ", "))
-  
-  if(length(ts_start_parts) == 2) {
+np.spei_batch <- function(data_matrix, freq, ts_start, scale, n_cores=1, ...) {
+    # data_matrix: A numeric matrix where rows=time, cols=grid_points
+    
+    # 1. Setup Time Series Metadata (Do this once for the whole batch)
+    ts_start_parts <- as.numeric(strsplit(ts_start, "-")[[1]])
+    if(length(ts_start_parts) == 1) ts_start_parts <- c(ts_start_parts, 1)
+    
     start_year <- ts_start_parts[1]
     start_month <- ts_start_parts[2]
-  } else if(length(ts_start_parts) == 1) {
-    start_year <- ts_start_parts[1]
-    start_month <- 1
-  }
-  
-  #message("Start year: ", start_year)
-  #message("Start month: ", start_month)
-  
-  # Create a zoo object with proper dates instead of using ts()
-  #message("Creating zoo object with dates...")
-  
-  # Create date sequence
-  start_date <- as.Date(paste0(start_year, "-", sprintf("%02d", start_month), "-01"))
-  dates <- seq.Date(from = start_date, by = "month", length.out = length(x))
-  
-  #message("Date range: ", paste(range(dates), collapse = " to "))
-  
-  # Create zoo object
-  x_zoo <- zoo::zoo(x, dates)
-  #message("Created zoo object successfully")
-  #message("zoo object class: ", class(x_zoo))
-  #message("zoo object length: ", length(x_zoo))
-  #if(length(x_zoo) > 0) message("zoo object sample: ", paste(head(x_zoo), collapse = ", "))
-  
-  # Call the original np.spei function with zoo object
-  #message("Calling np.spei with zoo object...")
-  result <- np.spei(x = x_zoo, scale = scale, ...)
-  #message("np.spei completed successfully")
-  #message("Result class: ", class(result))
-  #message("Result length: ", length(result))
-  
-  #message("===== COMPLETING np.spei_py WRAPPER =====")
-  return(result)
+    start_date <- as.Date(paste0(start_year, "-", sprintf("%02d", start_month), "-01"))
+    dates <- seq.Date(from = start_date, by = "month", length.out = nrow(data_matrix))
+    
+    # 2. Define worker function
+    process_column <- function(x_vec) {
+        if(all(is.na(x_vec))) {
+            return(rep(NA, length(x_vec)))
+        }
+        # Create zoo object
+        x_zoo <- zoo::zoo(x_vec, dates)
+        tryCatch({
+            res <- np.spei(x = x_zoo, scale = scale, ...)
+            return(as.numeric(res))
+        }, error = function(e) {
+            return(rep(NA, length(x_vec)))
+        })
+    }
+
+    result_matrix <- apply(data_matrix, 2, process_column)
+    
+    return(result_matrix)
 }

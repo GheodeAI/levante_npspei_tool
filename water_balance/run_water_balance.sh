@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=water_balance
-#SBATCH --output=logs/water_balance_%a_%A.out
+#SBATCH --output=logs/water_balance_z3_%a_%A.log
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -8,7 +8,7 @@
 #SBATCH --time=08:00:00
 #SBATCH --mail-user=cosmin.marina@uah.es
 #SBATCH --mail-type=END
-#SBATCH --account=bb1481
+#SBATCH --account=bk1318
 #SBATCH --cpus-per-task=1
 #SBATCH --array=1-12
 
