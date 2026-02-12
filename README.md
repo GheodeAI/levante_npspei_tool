@@ -38,27 +38,14 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 
 **Goal:** Compute NP-SPEI for individual grid points.
 
-To bypass memory restrictions on the HPC and, specially the time computing restrictions, the Water Balance NetCDF files are decomposed into individual grid points. A hybrid Python/R workflow calculates the Non-Parametric SPEI for each point in parallel using SLURM array jobs.
+A hybrid Python/R workflow calculates the Non-Parametric SPEI for each point in parallel using SLURM array jobs. Any process could be re-run thanks to the checkpoints.
 
 * **Key Scripts:** `submit_by_zone.sh`, `np_spei_calculator.py`
 * **Input:** Water Balance NetCDFs (from Step 2).
-* **Output:** Thousands of lightweight `.npy` files (one per grid point) in a `grid_points/` subdirectory.
+* **Output:** Final NP-SPEI NetCDF file (e.g., `spei_training_ens01.nc`).
 
 [📂 **Go to NP-SPEI Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/npspei/npspei.md)
 
----
-
-### Step 4: Merge Files
-
-**Goal:** Reconstruct the final global NetCDF.
-
-The final step gathers the thousands of individual grid point results produced in Step 3 and reconstructs them into a single, coherent NetCDF file for analysis. It includes checkpointing to resume interrupted merges safely.
-
-* **Key Script:** `create_netcdf.py`
-* **Input:** Directory of `.npy` grid point files (from Step 3).
-* **Output:** Final NP-SPEI NetCDF file (e.g., `npspei_1993_2014_ens01.nc`).
-
-[📂 **Go to Merge Files Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/merge_files/merge_files.md)
 
 ## Prerequisites
 

@@ -20,7 +20,7 @@ def load_r_environment(r_script_path):
     ro.r(f'source("{r_script_path}")')
     return ro.r['np.spei_batch']
 
-def process_fast(input_nc, output_nc, r_script, var_name, batch_size=5000, checkpoint_minutes=20, **spei_kwargs):
+def process_fast(input_nc, output_nc, r_script, var_name, batch_size=500, checkpoint_minutes=20, **spei_kwargs):
     # --- 1. Setup Paths ---
     # Create a temp directory specifically for this output file to avoid collisions
     temp_dir = f"{output_nc}_temp_data"
@@ -221,7 +221,7 @@ if __name__ == "__main__":
         args.output, 
         args.r_script, 
         var_name="wb",
-        batch_size=1000, # Can be larger now because RAM access is fast
+        batch_size=500,
         scale=args.scale,
         ref_start=args.ref_start,
         ref_end=args.ref_end
