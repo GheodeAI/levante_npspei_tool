@@ -30,7 +30,7 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 * **Input:** Preprocessed PR data (from Step 1) and Downscaled TN/TX.
 * **Output:** Monthly Water Balance NetCDF files per ensemble.
 
-[📂 **Go to Water Balance Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/water_balance/water_balance.md)
+[📂 **Go to Water Balance Tutorial**](https://github.com/GheodeAI/levante_npspei_tool/blob/5135095366cc4c5f950163216b06f5acaa064c6c/npspei/npspei.md)
 
 ---
 
