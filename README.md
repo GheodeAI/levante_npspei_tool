@@ -16,7 +16,7 @@ The raw precipitation data is provided in a 6-zone layout, while Temperature (TN
 * **Input:** Raw PR NetCDF files (6 zones).
 * **Output:** Preprocessed PR NetCDF files organized by ensemble and month (5 zones).
 
-[📂 **Go to Preprocess Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/preprocess/preprocess.md)
+[📂 **Go to Preprocess Tutorial**](preprocess/preprocess.md)
 
 ---
 
@@ -30,7 +30,7 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 * **Input:** Preprocessed PR data (from Step 1) and Downscaled TN/TX.
 * **Output:** Monthly Water Balance NetCDF files per ensemble.
 
-[📂 **Go to Water Balance Tutorial**](https://github.com/cosminmarina/levante_npspei_tool/blob/da2074495753ca3b3a169ce7465939674e2c388a/water_balance/water_balance.md)
+[📂 **Go to Water Balance Tutorial**](water_balance/water_balance.md)
 
 ---
 
