@@ -16,7 +16,7 @@ fi
 
 # Process training and testing datasets for each ensemble member
 for j in training testing; do
-    for i in {01..20}; do
+    for i in {01..25}; do
         for month in {01..12}; do
             # Extract a single month from the original file
             cdo selmon,${month#0} "data/zone${ZONE}/ens${i}/water_balance_${j}_${month}_*_ens${i}.nc" \
