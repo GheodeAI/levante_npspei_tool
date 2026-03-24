@@ -11,7 +11,6 @@ def main(zone:int=5):
     #sets_data = ['training']
     ensembles = range(1,26)
 
-    #for zone in range(3,6):
     print(f'Zone: {zone}')
     for ens in ensembles:
         print(f'Ens: {ens}')
@@ -24,20 +23,32 @@ def main(zone:int=5):
                 if zone == 1:
                     data1 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone1/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
                     data6 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone6/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
-    
+                    # print(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone6/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
+                    # print("data1:\n",data1)
+                    # print("data6:\n",data6)
+
                     data1 = data1.sel(lon=slice(18,45), lat=slice(55.008333,48))
                     data6 = data6.sel(lon=slice(18,45), lat=slice(60,55))
-    
-                    data = xr.concat((data1,data6), dim='lat')
+                    # print("data1:\n",data1)
+                    # print("data6:\n",data6)
+
+                    data = xr.concat((data6,data1), dim='lat')
+                    # print("data:\n",data)
                 elif zone == 2:
                     data1 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone1/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
                     #data2 = xr.open_dataset(f"/work/bb1478/Darrab/downscaling/models/pr_model/zone2/ens{ens:02d}/{month}/ecmwf_ens{ens:02d}_zone2_pr_{'1993_2014' if set_data=='training' else '2015_2015'}_{month[:2]}_00_downscaled_{set_data}.nc")
                     data2 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone2/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
-    
-                    data1 = data1.sel(lon=slice(18,45), lat=slice(55.008333,48))
-                    data2 = data2.sel(lon=slice(18,45), lat=slice(50,47))
+                    print(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone2/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
+                    print("data1:\n",data1)
+                    print("data2:\n",data2)
+
+                    data1 = data1.sel(lon=slice(18,45), lat=slice(50.008333,48))
+                    data2 = data2.sel(lon=slice(18,45), lat=slice(48,30))
+                    print("data1:\n",data1)
+                    print("data2:\n",data2)
     
                     data = xr.concat((data1,data2), dim='lat')
+                    print("data:\n",data)
                 elif zone == 3:
                     data5 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone5/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
                     data6 = xr.open_dataset(f"/work/bb1478/Darrab/bias_correction/bc_medwsa/Pr/zone6/ens{ens:02d}/outputs/bc_medewsa_{'c' if set_data == 'training' else 'v'}al_pr_daily_{'1993-2014' if set_data=='training' else '2015-2015'}_{month[:2]}.nc")
@@ -73,7 +84,20 @@ def main(zone:int=5):
                 else: 
                     message = OSError(f'Not known zone {zone}!')
                     print(message)            
-                data.to_netcdf(f"./data/zone{zone}/ens{ens:02d}/pr_model/{month}/predict_{set_data}.nc")
+                encoding = {
+                    'pr': {
+                        'dtype': 'int16',
+                        'scale_factor': 0.01,
+                        'add_offset': 0.0,
+                        '_FillValue': -9999,
+                        'zlib': True,
+                        'complevel': 5
+                    }
+                }
+                data.to_netcdf(
+                    f"./data/zone{zone}/ens{ens:02d}/pr_model/{month}/predict_{set_data}.nc",
+                    encoding=encoding
+                )
 
 
 
@@ -88,3 +112,4 @@ if __name__ == "__main__":
     if args.zone is not None:
         zone = args.zone
     main(zone)
+
