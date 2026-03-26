@@ -138,7 +138,7 @@ for (ensemble in ensembles) {
         # Define variable as 32-bit float, rounded to 2 decimal places on write
         wb_var <- ncvar_def("wb", "mm", list(lon_dim, lat_dim, time_dim),
                             missval = MISSING_VAL, longname = "Water Balance (P - PET)",
-                            prec = "float")
+                            prec = "float", compression = 5)
 
         nc_out <- nc_create(out_file, list(wb_var))
 
