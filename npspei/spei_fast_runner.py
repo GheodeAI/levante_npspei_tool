@@ -188,10 +188,21 @@ def process_fast(input_nc, output_nc, r_script, var_name, batch_size=500, checkp
         "scale": spei_kwargs.get('scale', 3),
         "source": input_nc
     }
-    
+    # Compression and resolution
+    encoding = {
+        'spei': {
+            'dtype': 'int16',
+            'scale_factor': 0.01,
+            'add_offset': 0.0,
+            '_FillValue': np.nan,
+            'zlib': True,
+            'complevel': 5
+        }
+    }
+
     # Save to NetCDF
     # This is the ONLY time we do a heavy NetCDF write
-    ds_out.to_netcdf(output_nc)
+    ds_out.to_netcdf(output_nc, encoding=encoding, format='NETCDF4')
     logging.info(f"Saved final file: {output_nc}")
     
     # --- 7. Cleanup ---
