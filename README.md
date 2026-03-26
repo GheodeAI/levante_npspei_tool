@@ -40,7 +40,7 @@ Using the preprocessed precipitation and downscaled temperature data (Tmax/Tmin)
 
 A hybrid Python/R workflow calculates the Non-Parametric SPEI for each point in parallel using SLURM array jobs. Any process could be re-run thanks to the checkpoints.
 
-* **Key Scripts:** `submit_by_zone.sh`, `np_spei_calculator.py`
+* **Key Scripts:** `submit_by_zone.sh`, `spei_fast_runner.py`
 * **Input:** Water Balance NetCDFs (from Step 2).
 * **Output:** Final NP-SPEI NetCDF file (e.g., `spei_training_ens01.nc`).
 
