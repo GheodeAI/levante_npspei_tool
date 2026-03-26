@@ -140,7 +140,7 @@ for (ensemble in ensembles) {
                             missval = MISSING_VAL, longname = "Water Balance (P - PET)",
                             prec = "float", compression = 5)
 
-        nc_out <- nc_create(out_file, list(wb_var))
+        nc_out <- nc_create(out_file, list(wb_var), format = "netcdf4")
 
         # Pre-fill with missing value
         ncvar_put(nc_out, "wb", array(MISSING_VAL, dim = c(nlon, nlat, ntime)))
